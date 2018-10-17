@@ -9,36 +9,38 @@ public class RationalNumber extends RealNumber
   */
   public RationalNumber(int nume, int deno){
     super(0);//this value is ignored! 
+    numerator = nume;
+    denominator = deno
   }
 
   public double getValue(){
-    return 0;//???
+    return numerator/denominator;
   }
 
   /**
   *@return the numerator
   */
   public int getNumerator(){
-    return 0;
+    return numerator;
   }
   /**
   *@return the denominator
   */
   public int getDenominator(){
-    return 0;
+    return denominator;
   }
   /**
   *@return a new RationalNumber that has the same numerator
   *and denominator as this RationalNumber but reversed.
   */
   public RationalNumber reciprocal(){
-    return null;
+    return denominator/numerator;
   }
   /**
   *@return true when the RationalNumbers have the same numerators and denominators, false otherwise.
   */
   public boolean equals(RationalNumber other){
-    return false;
+    return (this.getNumerator() == other.getNumerator() && this.getDenominator() == other.getDenominator()); 
   }
 
 
@@ -46,7 +48,7 @@ public class RationalNumber extends RealNumber
   *@return the value expressed as "3/4" or "8/3"
   */
   public String toString(){
-    return "0";
+    return numerator + "/" + denominator;
   }
 
 
@@ -58,7 +60,16 @@ public class RationalNumber extends RealNumber
   */
   private static int gcd(int a, int b){
     /*use euclids method or a better one*/
-    return 0;
+    int big;
+    int small;
+    if (a > b){
+	big = a;
+	small = b;
+    }
+    else {
+	big = b;
+	small = a;
+    }
   }
 
 
