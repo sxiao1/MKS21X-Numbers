@@ -8,13 +8,18 @@ public class RationalNumber extends RealNumber
   *@param deno the denominator
   */
   public RationalNumber(int nume, int deno){
-    super(0);//this value is ignored! 
+    super(0);//this value is ignored!
+    if (deno == 0){
+      nume = 0;
+      deno = 1;
+    }
     numerator = nume;
-    denominator = deno
+    denominator = deno;
+    reduce();
   }
 
   public double getValue(){
-    return numerator/denominator;
+    return (double)numerator/(double)denominator;
   }
 
   /**
@@ -34,13 +39,14 @@ public class RationalNumber extends RealNumber
   *and denominator as this RationalNumber but reversed.
   */
   public RationalNumber reciprocal(){
-    return denominator/numerator;
+    RationalNumber n = new RationalNumber(denominator, numerator);
+    return n;
   }
   /**
   *@return true when the RationalNumbers have the same numerators and denominators, false otherwise.
   */
   public boolean equals(RationalNumber other){
-    return (this.getNumerator() == other.getNumerator() && this.getDenominator() == other.getDenominator()); 
+    return (this.getNumerator() == other.getNumerator() && this.getDenominator() == other.getDenominator());
   }
 
 
@@ -48,7 +54,13 @@ public class RationalNumber extends RealNumber
   *@return the value expressed as "3/4" or "8/3"
   */
   public String toString(){
-    return numerator + "/" + denominator;
+    if(getDenominator() == 1){
+      return "" + getNumerator();
+    }
+    if (getNumerator() == 0){
+      return "" + getNumerator();
+    }
+    return getNumerator() + "/" + getDenominator();
   }
 
 
@@ -60,18 +72,23 @@ public class RationalNumber extends RealNumber
   */
   private static int gcd(int a, int b){
     /*use euclids method or a better one*/
-    int big;
-    int small;
     if (a > b){
-	big = a;
-	small = b;
+      while(b > 0){
+        int n = b;
+        b = a % b;
+        a = n;
+      }
+      return a;
     }
-    else {
-	big = b;
-	small = a;
+    else{
+      while(a > 0){
+        int n = a;
+        a = b % a;
+        b = n;
+      }
+      return b;
     }
   }
-
 
 
   /**
@@ -80,32 +97,41 @@ public class RationalNumber extends RealNumber
   *reduced after construction.
   */
   private void reduce(){
+    numerator = this.numerator / gcd(numerator, denominator);
+    denominator = this.denominator / gcd(numerator, denominator);
 
   }
   /**
   *Return a new RationalNumber that is the product of this and the other
   */
   public RationalNumber multiply(RationalNumber other){
-    return null;
+    RationalNumber n = new RationalNumber(this.getNumerator() * this.getDenominator(), this.getDenominator() * other.getDenominator());
+    return n;
   }
 
   /**
   *Return a new RationalNumber that is the this divided by the other
   */
   public RationalNumber divide(RationalNumber other){
-    return null;
+    return this.multiply(other.reciprocal());
   }
 
   /**
   *Return a new RationalNumber that is the sum of this and the other
   */
   public RationalNumber add(RationalNumber other){
-    return null;
+    int newdeno = this.getDenominator() * other.getDenominator();
+    int newnume = this.getNumerator() * other.getDenominator() + other.getNumerator() * this.getDenominator();
+    RationalNumber n = new RationalNumber(newnume, newdeno);
+    return n;
   }
   /**
   *Return a new RationalNumber that this minus the other
   */
   public RationalNumber subtract(RationalNumber other){
-    return null;
+    int newdeno = this.getDenominator() * other.getDenominator();
+    int newnume = this.getNumerator() * other.getDenominator() - other.getNumerator() * this.getDenominator();
+    RationalNumber n = new RationalNumber(newnume, newdeno);
+    return n;
   }
-} 
+}
